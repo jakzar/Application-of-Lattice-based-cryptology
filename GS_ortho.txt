@@ -1,0 +1,28 @@
+# Input:
+# - A: A matrix for which Gram-Schmidt orthogonalization is to be applied.
+# - direction: A string specifying the direction of the orthogonalization. 
+#   It can be either "rows" (for row-wise orthogonalization) or "cols" (for column-wise orthogonalization).
+# 
+# Output:
+# - A list of orthogonalized vectors, where each vector is represented as a row or column, depending on the specified direction.
+def gramSchmidtOrthogonalization(A, direction):
+    vectors=[]
+    if(direction=="rows"):
+        A=A
+    elif(direction=="cols"):
+        A=A.transpose()
+    else:
+        return
+        
+    vectors.append(vector(A.row(0)))
+    for i in range(1, A.nrows()):
+        vectors.append(vector(A.row(i)))
+        for j in range(0, i):
+            m=(A[i].dot_product(vectors[j]))/(vectors[j].dot_product(vectors[j]))
+            x=vectors[i]-(m*vectors[j])
+            vectors[i]=x
+    return vectors
+                 
+A = Matrix([[1, 2, -2], [4, 3, 2], [1, 2, 1]])
+B=gramSchmidtOrthogonalization(A, "cols")                   
+print(B)
